@@ -1,3 +1,8 @@
+// if(process.env.NODE_ENV !== "production") {
+//    require('dotenv').config();
+// }
+
+// require('dotenv').config();
 const express = require('express');
 //we need to require the path to use for the views directory
 const path = require('path');
@@ -22,6 +27,9 @@ const userRoutes = require('./routes/users');
 const campgroundRoutes = require('./routes/campgrounds');
 const reviewRoutes = require('./routes/reviews');
 
+
+const mongoSanitize = require('express-mongo-sanitize');
+
 //connecting mongoose with mongodb
 mongoose.connect('mongodb://localhost:27017/yelp-camp');
 
@@ -44,14 +52,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 //Serve the public folder! - with javascripts and stylesheets and stuff
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize());
 
 //Session stuff
 const sessionConfig = {
+   name: 'session_cookie',
    secret: 'thisshouldbeabettersecret',
    resave: false,
    saveUninitialized: true,
    cookie: {
       httpOnly: true,
+      // secure: true,  //this is only for when I deploy, to make site secure with https
       expires: Date.now() + 1000*60*60*24*7,
       maxAge: 1000*60*60*24*7
    }
