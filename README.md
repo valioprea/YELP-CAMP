@@ -9,3 +9,7 @@ Website with full CRUD, authentication and authorization for users to manage and
 - Bootstrap 5
 - Passport (Auth & Author.)
 - Mongo & Mongoose
+
+# Additional tools used
+- Cloudinary (image storage)
+- MapBox
